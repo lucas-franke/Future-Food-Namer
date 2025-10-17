@@ -1,10 +1,5 @@
+const API_URL = "/.netlify/functions/rename"; 
 
-const API_URL = "/.netlify/functions/rename"; 
-async function sendPrompt() {
-const promptInput = document.getElementById('promptInput');
-const outtputDiv = document.getElementById('output');
-const userPrompt = promptInput.value.trim();
-const API_URL = "/.netlify/functions/rename"; 
 const loadingMessages = [
     '✨ Verbrauchertäuschungssichere Umschreibung wird gesucht...',
     '🍻 Markus Söder mit veganem Weißbier ablenken...',
@@ -13,21 +8,27 @@ const loadingMessages = [
     '⏳ Warte auf die Genehmigung aus Brüssel...'
 ];
 
-   async function sendPrompt() {
+// Send prompt to the serverless function
+async function sendPrompt() {
     const promptInput = document.getElementById('promptInput');
     const outputDiv = document.getElementById('output');
     const userPrompt = promptInput.value.trim();
-
     if (!userPrompt) {
         alert("Bitte gib einen veganen Produktnamen ein.");
         return;
     }
-    // Show funny messages while loading
+
+    // Trigger loading animation
     let messageIndex = 0;
+    outputDiv.innerHTML = `<span class="loading">${loadingMessages[messageIndex]}</span>`;
+    messageIndex = (messageIndex + 1) % loadingMessages.length;
+    
+    // Set interval for loading animation
     let loadingInterval = setInterval(() => {
         outputDiv.innerHTML = `<span class="loading">${loadingMessages[messageIndex]}</span>`;
         messageIndex = (messageIndex + 1) % loadingMessages.length;
     }, 800);
+
 
 
     try {
@@ -39,7 +40,7 @@ const loadingMessages = [
             body: JSON.stringify({ prompt: userPrompt })
         });
         
-        //Stop the loading messages when response is received
+        // Stop loading animation when response is received
         clearInterval(loadingInterval);
 
         const data = await response.json();
@@ -47,7 +48,6 @@ const loadingMessages = [
         if (response.ok) {
             outputDiv.textContent = data.renamed_product;
         } else {
-            // Show error message from the API and stop loading
             outputDiv.textContent = `Fehler: ${data.error || 'Unbekannter Fehler bei der Function.'}`;
             console.error('API Error Response:', data);
         }
@@ -57,4 +57,4 @@ const loadingMessages = [
         outputDiv.textContent = 'Es gab ein Problem beim Senden der Anfrage. Prüfe die Konsole für Details.';
         console.error('Fetch Error:', error);
     }
-}}
+}
