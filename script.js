@@ -57,4 +57,4 @@ const loadingMessages = [
         outputDiv.textContent = 'Es gab ein Problem beim Senden der Anfrage. Prüfe die Konsole für Details.';
         console.error('Fetch Error:', error);
     }
-}
+}}
