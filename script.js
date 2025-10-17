@@ -1,34 +1,30 @@
 const API_URL = "/.netlify/functions/rename"; 
 
 const loadingMessages = [
-    '✨ Verbrauchertäuschungssichere Umschreibung wird gesucht...',
-    '🍻 Markus Söder mit veganem Weißbier ablenken...',
-    '🔬 Der Wortfindungs-Algorithmus läuft heiß...',
-    '🌿 Konsultiere die pflanzenbasierte Synonym-Datenbank...',
-    '⏳ Warte auf die Genehmigung aus Brüssel...'
+    '✨ Searching for consumer-deception-proof relabeling...',
+    '🍻 Distracting Markus Söder with vegan Weißbier...',
+    '🔬 The word-finding algorithm is overheating...',
+    '🌿 Consulting the plant-based synonym database...',
+    '⏳ Waiting for approval from Brussels...'
 ];
 
-// Send prompt to the serverless function
+/**
+ * Sends the user's prompt to the Netlify Function (Backend).
+ */
 async function sendPrompt() {
     const promptInput = document.getElementById('promptInput');
     const outputDiv = document.getElementById('output');
     const userPrompt = promptInput.value.trim();
+
     if (!userPrompt) {
-        alert("Bitte gib einen veganen Produktnamen ein.");
+        alert("Please enter a vegan product name.");
         return;
     }
 
-    // Trigger loading animation
-    let messageIndex = 0;
-    outputDiv.innerHTML = `<span class="loading">${loadingMessages[messageIndex]}</span>`;
-    messageIndex = (messageIndex + 1) % loadingMessages.length;
-    
-    // Set interval for loading animation
-    let loadingInterval = setInterval(() => {
-        outputDiv.innerHTML = `<span class="loading">${loadingMessages[messageIndex]}</span>`;
-        messageIndex = (messageIndex + 1) % loadingMessages.length;
-    }, 800);
-
+    // Loading Random Message
+    const randomIndex = Math.floor(Math.random() * loadingMessages.length);
+    const randomMessage = loadingMessages[randomIndex];
+    outputDiv.innerHTML = `<span class="loading">${randomMessage}</span>`;
 
 
     try {
@@ -39,22 +35,16 @@ async function sendPrompt() {
             },
             body: JSON.stringify({ prompt: userPrompt })
         });
-        
-        // Stop loading animation when response is received
-        clearInterval(loadingInterval);
-
         const data = await response.json();
-
         if (response.ok) {
             outputDiv.textContent = data.renamed_product;
         } else {
-            outputDiv.textContent = `Fehler: ${data.error || 'Unbekannter Fehler bei der Function.'}`;
+            outputDiv.textContent = `Error: ${data.error || 'Unknown function error.'}`;
             console.error('API Error Response:', data);
         }
 
     } catch (error) {
-        clearInterval(loadingInterval);
-        outputDiv.textContent = 'Es gab ein Problem beim Senden der Anfrage. Prüfe die Konsole für Details.';
+        outputDiv.textContent = 'There was a problem sending the request. Check the console for details.';
         console.error('Fetch Error:', error);
     }
 }
