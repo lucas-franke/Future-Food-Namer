@@ -1,0 +1,23 @@
+{
+  "name": "vegane-produktnamen",
+  "version": "1.0.0",
+  "description": "Durch den neuen EU Gesetzesentwurf müssen Unternehmen sowie Verbraucher:innen sich zukünftig mehr Gedanken darüber machen, wie vegane Produkte benannt werden dürfen. Der Future-Food-Namer hilft dabei, illegale und verbrauchertäuschende Bezeichnungen für vegane Produkte in großartige neue Produktnamen zu verwandeln.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucas-franke/Vegane-Produktnamen.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lucas-franke/Vegane-Produktnamen/issues"
+  },
+  "homepage": "https://github.com/lucas-franke/Vegane-Produktnamen#readme",
+  "dependencies": {
+    "@google/genai": "^1.25.0"
+  }
+}
