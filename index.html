@@ -3,27 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Future Food Namer</title>
+    <title></title>
     <style>
         body { font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
         textarea { width: 100%; padding: 10px; margin-bottom: 10px; box-sizing: border-box; }
         button { padding: 10px 20px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
-        #output { border: 1px solid #ccc; padding: 15px; min-height: 100px; white-space: pre-wrap; background-color: #f9f9f9; }
-        .loading { color: gray; }
+        #output { 
+            border: 1px solid #ccc; 
+            padding: 15px; 
+            min-height: 100px; 
+            white-space: pre-wrap; 
+            background-color: #f9f9f9; 
+            color: transparent; 
+        }
+        #output.has-content {
+            color: initial;
+        }
+        .loader-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4CAF50;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loading-container {
+            display: flex;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
 
     <h1>Gib einen veganen Produktnamen ein</h1>
-
     <textarea id="promptInput" rows="5" placeholder="z.B. vegane Salamischeiben..."></textarea>
     <button onclick="sendPrompt()">Senden</button>
-
-    <h2>KI-Antwort:</h2>
-    <div id="output">Warte auf Eingabe...</div>
+    <div id="output"></div> 
 
     <script src="script.js"></script>
-
-    
 </body>
 </html>

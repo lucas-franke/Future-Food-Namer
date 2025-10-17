@@ -8,9 +8,6 @@ const loadingMessages = [
     '⏳ Waiting for approval from Brussels...'
 ];
 
-/**
- * Sends the user's prompt to the Netlify Function (Backend).
- */
 async function sendPrompt() {
     const promptInput = document.getElementById('promptInput');
     const outputDiv = document.getElementById('output');
@@ -21,11 +18,17 @@ async function sendPrompt() {
         return;
     }
 
-    // Loading Random Message
+    outputDiv.classList.remove('has-content'); 
+    
     const randomIndex = Math.floor(Math.random() * loadingMessages.length);
     const randomMessage = loadingMessages[randomIndex];
-    outputDiv.innerHTML = `<span class="loading">${randomMessage}</span>`;
-
+    
+    outputDiv.innerHTML = `
+        <div class="loading-container">
+            <span class="loader-spinner"></span> 
+            <span class="loading">${randomMessage}</span>
+        </div>
+    `;
 
     try {
         const response = await fetch(API_URL, {
@@ -35,7 +38,11 @@ async function sendPrompt() {
             },
             body: JSON.stringify({ prompt: userPrompt })
         });
+        
+        outputDiv.classList.add('has-content'); 
+
         const data = await response.json();
+
         if (response.ok) {
             outputDiv.textContent = data.renamed_product;
         } else {

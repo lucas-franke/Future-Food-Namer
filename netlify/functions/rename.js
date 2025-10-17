@@ -1,32 +1,26 @@
 const { GoogleGenAI } = require('@google/genai');
 
-// Load the API Key securely from Netlify Environment Variables
 const API_KEY = process.env.GEMINI_API_KEY; 
 const MODEL_NAME = "gemini-2.5-flash-lite";
 
-// Initialize the AI client
 const ai = new GoogleGenAI({apiKey: API_KEY});
 
-// CORS Headers necessary to allow cross-origin requests from the frontend
 const HEADERS = {
-    'Access-Control-Allow-Origin': '*', // Allows all domains to access the function
-    'Access-Control-Allow-Methods': 'POST, OPTIONS', // Must explicitly allow POST and OPTIONS
+    'Access-Control-Allow-Origin': '*', 
+    'Access-Control-Allow-Methods': 'POST, OPTIONS', 
     'Access-Control-Allow-Headers': 'Content-Type',
 };
 
-// Main handler for the Netlify Function
 exports.handler = async (event, context) => {
 
-    // 1. Handle OPTIONS request (CORS Preflight)
     if (event.httpMethod === 'OPTIONS') {
         return {
-            statusCode: 200, // Success code for preflight checks
+            statusCode: 200, 
             headers: HEADERS,
             body: ''
         };
     }
     
-    // 2. Reject all other non-POST requests
     if (event.httpMethod !== 'POST') {
         return { 
             statusCode: 405, 
@@ -35,7 +29,6 @@ exports.handler = async (event, context) => {
         };
     }
     
-    // 3. Process the POST request
     try {
         const body = JSON.parse(event.body);
         const userPrompt = body.prompt;
@@ -48,7 +41,6 @@ exports.handler = async (event, context) => {
             };
         }
 
-        // Call the Gemini API with the system instruction
         const response = await ai.models.generateContent({
             model: MODEL_NAME,
             contents: [{
@@ -56,13 +48,12 @@ exports.handler = async (event, context) => {
                 parts: [{ text: userPrompt }]
             }],
             config: {
-                systemInstruction: "Du bist ein kreativer Produkt-Umschreiber, der vegane Lebensmittel so umbenennt, dass keine klassischen fleischbezogenen Begriffe (wie Wurst, Salami, Steak, Schinken) verwendet werden. Erfinde stattdessen blumige, phantasievolle Umschreibungen, die den Geschmack, die Textur oder die Form beschreiben, aber immer nur EINEN Satz lang sind. Der Name des Originals darf in der Umschreibung nicht vorkommen. Beispiel: Für 'Seitan Salami' antworte mit 'Gewürzte Weizeneiweiß-Rolle nach pikanter Art'.",
+                systemInstruction: "You are a creative product relabeler who generates alternative names for vegan products. Your task is to apply the following rules to the user's input: 1. **Adopt the language of the user's input for your answer.** (e.g., if the user writes in French, answer in French). 2. Never use classic meat-related terms (sausage, steak, ham) in the relabeling. 3. The relabeling must be a single, descriptive sentence focusing on taste, texture, or shape. 4. The original name must not appear in the relabeling. Example (German input): For 'Seitan Salami' answer with 'Gewürzte Weizeneiweiß-Rolle nach pikanter Art'. Example (English input): For 'Soy Burger' answer with 'Savory ground vegetable patty, pan-ready for cooking'.",
                 temperature: 0.8,
                 maxOutputTokens: 100
             }
         });
 
-        // Send the generated AI response back to the frontend
         return {
             statusCode: 200,
             headers: HEADERS,
