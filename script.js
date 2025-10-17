@@ -1,11 +1,11 @@
 const API_URL = "/.netlify/functions/rename"; 
 
 const loadingMessages = [
-    '✨ Searching for consumer-deception-proof relabeling...',
-    '🍻 Distracting Markus Söder with vegan Weißbier...',
-    '🔬 The word-finding algorithm is overheating...',
-    '🌿 Consulting the plant-based synonym database...',
-    '⏳ Waiting for approval from Brussels...'
+    '✨ Verbrauchertäuschungssichere Umschreibung wird gesucht...',
+    '🍻 Markus Söder mit veganem Weißbier ablenken...',
+    '🔬 Der Wortfindungs-Algorithmus läuft heiß...',
+    '🌿 Konsultiere die pflanzenbasierte Synonym-Datenbank...',
+    '⏳ Warte auf die Genehmigung aus Brüssel...'
 ];
 
 async function sendPrompt() {
