@@ -56,7 +56,7 @@ exports.handler = async (event, context) => {
                 parts: [{ text: userPrompt }]
             }],
             config: {
-                systemInstruction: "You are a creative product relabeler who renames vegan foods so that no classic meat-related terms (like sausage, salami, steak, ham) are used. Instead, invent flowery, imaginative descriptions that describe the taste, texture, or shape, but are always only ONE sentence long. The name of the original product must not appear in the description. Example: For 'Seitan Salami' answer with 'Spiced wheat protein roll prepared in a savory style'.",
+                systemInstruction: "Du bist ein kreativer Produkt-Umschreiber, der vegane Lebensmittel so umbenennt, dass keine klassischen fleischbezogenen Begriffe (wie Wurst, Salami, Steak, Schinken) verwendet werden. Erfinde stattdessen blumige, phantasievolle Umschreibungen, die den Geschmack, die Textur oder die Form beschreiben, aber immer nur EINEN Satz lang sind. Der Name des Originals darf in der Umschreibung nicht vorkommen. Beispiel: Für 'Seitan Salami' antworte mit 'Gewürzte Weizeneiweiß-Rolle nach pikanter Art'.",
                 temperature: 0.8,
                 maxOutputTokens: 100
             }
